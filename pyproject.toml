@@ -1,0 +1,29 @@
+[project]
+name = "geom"
+version = "0.1.0"
+description = "Test library for geometry calculations"
+authors = [
+    {name = "Sam Nazarov", email = "samnnazarov@gmail.com"}
+]
+license = "MIT"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+]
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.4.2"
+pytest-cov = "^6.2.1"
+coverage = "^7.10.6"
+tox = "^4.30.2"
+flake8 = "^7.3.0"
+mypy = "^1.17.1"
+
+[tool.poetry]
+packages = [
+    {include = "geom", from = "src"},
+]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
