@@ -7,9 +7,20 @@ authors = [
 ]
 license = "MIT"
 readme = "README.md"
-requires-python = ">=3.10"
-dependencies = [
+requires-python = ">=3.10, <3.15"
+keywords = [
+    'geometry',
+    'area'
 ]
+dependencies = [
+    "numpy (<2.3.2) ; python_version < \"3.11\"",
+    "numpy (>=2.3.2,<3.0.0) ; python_version >= \"3.11\"",
+]
+
+[project.urls]
+homepage = "https://github.com/sammnnz/geom"
+source = "https://github.com/sammnnz/geom"
+tracker = "https://github.com/sammnnz/geom/issues"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.4.2"
@@ -18,10 +29,19 @@ coverage = "^7.10.6"
 tox = "^4.30.2"
 flake8 = "^7.3.0"
 mypy = "^1.17.1"
+pre-commit = "^4.3.0"
 
 [tool.poetry]
+#requires-poetry = ">=2.0"
 packages = [
     {include = "geom", from = "src"},
+]
+
+[tool.mypy]
+mypy_path = "src"
+ignore_missing_imports = true
+exclude = [
+    "/_draft"
 ]
 
 [build-system]
