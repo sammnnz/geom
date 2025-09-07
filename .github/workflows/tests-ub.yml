@@ -22,6 +22,14 @@ jobs:
         os: [ubuntu-latest]
         py: ["3.10", "3.11", "3.12", "3.13", "3.14"]
         cov: ["${{inputs.cov}}"]
+        exclude:
+          - os: ubuntu-latest
+            py: "3.14"
+            cov: "${{inputs.cov}}"
+        include:
+          - os: ubuntu-22.04
+            py: "3.14.0-rc.2"
+            cov: "${{inputs.cov}}"
     uses: ./.github/workflows/tests_imp.yml
     with:
         os: ${{matrix.os}}
