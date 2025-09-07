@@ -45,7 +45,7 @@ exclude = [
 ]
 
 [tool.pytest.ini_options]
-addopts = "--cov=geom --cov-append -v"
+addopts = "--cov=geom --cov-append"
 testpaths = [
     "tests",
 ]
