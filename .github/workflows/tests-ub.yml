@@ -1,0 +1,42 @@
+name: Tests-ub
+
+on:
+   pull_request:
+     branches: [main, release-*, develop, fe-*]
+     types: [opened, reopened]
+   workflow_dispatch:
+     inputs:
+       cov:
+         required: false
+         type: choice
+         default: 'true'
+         options:
+           - 'true'
+           - 'false'
+
+jobs:
+  tests-call:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        py: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+        cov: ["${{inputs.cov}}"]
+        exclude:
+          - os: ubuntu-latest
+            py: "3.14"
+            cov: "${{inputs.cov}}"
+        include:
+          - os: ubuntu-22.04
+            py: "3.14.0-rc.2"
+            cov: "${{inputs.cov}}"
+    uses: ./.github/workflows/tests_imp.yml
+    with:
+        os: ${{matrix.os}}
+        py: ${{matrix.py}}
+        cov: ${{matrix.cov}}
+        lint: ${{matrix.lint}}
+        typecheck: ${{matrix.typecheck}}
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
+      codecov_token: ${{ secrets.CODECOV_TOKEN }}
