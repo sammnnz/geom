@@ -34,8 +34,15 @@ class Shape2D(BaseShape2D, ABC):
         if phi.shape != (2,):
             raise ValueError("'phi' must be array-like object of shape (2,).")
 
-        self._x = x if isinstance(x, np.ufunc) else np.frompyfunc(x, 1, 1)
-        self._y = y if isinstance(y, np.ufunc) else np.frompyfunc(y, 1, 1)
+        phi_0, phi_1 = phi
+        if phi_0 >= phi_1:
+            raise ValueError("'phi_0' must be < 'phi_1'.")
+
+        x = x if isinstance(x, np.ufunc) else np.frompyfunc(x, 1, 1)
+        y = y if isinstance(y, np.ufunc) else np.frompyfunc(y, 1, 1)
+        # TODO: check the closure of curves
+        self._x = x
+        self._y = y
         self._phi = phi
 
     @property
