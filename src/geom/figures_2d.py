@@ -52,3 +52,9 @@ class Triangle(Figure2D, ABC):
         matrix = self._verts[1:] - self._verts[0]
         det = np.linalg.det(matrix)
         return np.abs(det) / 2.0
+
+    @lru_cache
+    def is_right_angled(self):
+        matrix = np.concat((self._verts[1:] - self._verts[:-1], [self._verts[0] - self._verts[-1]]))
+        prod = np.sum(matrix * np.roll(matrix, 1, axis=0), axis=1)
+        return 0.0 in prod
