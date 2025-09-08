@@ -26,17 +26,15 @@ class Shape2D(BaseShape2D, ABC):
         if not is_single_argument(y):
             raise TypeError("'y' must have only one positional argument.")
 
-        try:
-            n, m = phi
-        except ValueError:
-            raise ValueError("'phi' must be array-like object of size 2 * 1.")
+        if not isinstance(phi, np.ndarray) or phi.dtype != np.float64:
+            phi = np.asarray(phi, dtype=np.float64)  # may be ValueError with incorrect shape
 
-        if not isinstance(n, (int, float, np.number)) or not isinstance(m, (int, float, np.number)):
-            raise ValueError("'phi' must have an integer or float.")
+        if phi.shape != (2,):
+            raise ValueError("'phi' must be array-like object of shape (2,).")
 
         self._x = x if isinstance(x, np.ufunc) else np.frompyfunc(x, 1, 1)
         self._y = y if isinstance(y, np.ufunc) else np.frompyfunc(y, 1, 1)
-        self._phi = phi if isinstance(phi, np.ndarray) else np.array([n, m])
+        self._phi = phi
 
     @property
     def x(self):
@@ -55,16 +53,22 @@ class Circle(Shape2D, ABC):
     """ Circle representation class. """
 
     def __init__(self, radius, center):
-        if not isinstance(radius, (int, float, np.number)) or radius <= 0:
-            raise ValueError("'radius' must be an integer or float and > 0.")
+        if not isinstance(radius, np.number) or radius.dtype != np.float64:
+            try:
+                radius = np.float64(radius)
+            except ValueError:
+                raise ValueError("'radius' must be an integer or float.")
 
-        try:
-            x_0, y_0 = center
-        except ValueError:
-            raise ValueError("'center' must be an array with length 2.")
+        if radius <= 0:
+            raise ValueError("'radius' must be > 0.")
 
-        if not isinstance(x_0, (int, float, np.number)) or not isinstance(y_0, (int, float, np.number)):
-            raise ValueError("'center' coordinates must be an integer or float.")
+        if not isinstance(center, np.ndarray) or center.dtype != np.float64:
+            center = np.asarray(center, dtype=np.float64)  # may be ValueError with incorrect shape
+
+        if center.shape != (2,):
+            raise ValueError("'center' must be array-like object of shape (2,).")
+
+        x_0, y_0 = center
 
         def cos(phi):
             return x_0 + radius * np.cos(phi)
@@ -73,8 +77,8 @@ class Circle(Shape2D, ABC):
             return y_0 + radius * np.sin(phi)
 
         super(Circle, self).__init__(x=cos, y=sin, phi=(0.0, 2.0 * np.pi))
-        self._radius = radius
         self._center = center
+        self._radius = radius
 
     @lru_cache
     def area(self):

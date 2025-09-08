@@ -11,8 +11,8 @@ class Figure2D(BaseFigure2D, ABC):
     """ Parent class of all 2d figures with a finite number of vertices. """
 
     def __init__(self, verts, *args, **kwargs):
-        if not isinstance(verts, np.ndarray):
-            verts = np.asarray(verts)  # may be ValueError with incorrect shape
+        if not isinstance(verts, np.ndarray) or verts.dtype != np.float64:
+            verts = np.asarray(verts, dtype=np.float64)  # may be ValueError with incorrect shape
 
         n, m = 0, 0
         try:
