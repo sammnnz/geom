@@ -5,6 +5,8 @@ from abc import ABC
 from functools import lru_cache
 from geom.abc import BaseShape2D
 from types import FunctionType, MethodType
+from typing import cast
+from .types import NDArray1D
 from .utils import is_single_argument
 
 __all__ = ["Circle", "Shape2D"]
@@ -27,7 +29,7 @@ class Shape2D(BaseShape2D, ABC):
             raise TypeError("'y' must have only one positional argument.")
 
         if not isinstance(phi, np.ndarray) or phi.dtype != np.float64:
-            phi = np.asarray(phi, dtype=np.float64)  # may be ValueError with incorrect shape
+            phi = cast(NDArray1D, np.asarray(phi, dtype=np.float64))  # may be ValueError with incorrect shape
 
         if phi.shape != (2,):
             raise ValueError("'phi' must be array-like object of shape (2,).")
@@ -63,7 +65,7 @@ class Circle(Shape2D, ABC):
             raise ValueError("'radius' must be > 0.")
 
         if not isinstance(center, np.ndarray) or center.dtype != np.float64:
-            center = np.asarray(center, dtype=np.float64)  # may be ValueError with incorrect shape
+            center = cast(NDArray1D, np.asarray(center, dtype=np.float64))  # may be ValueError with incorrect shape
 
         if center.shape != (2,):
             raise ValueError("'center' must be array-like object of shape (2,).")
@@ -76,7 +78,7 @@ class Circle(Shape2D, ABC):
         def sin(phi):
             return y_0 + radius * np.sin(phi)
 
-        super(Circle, self).__init__(x=cos, y=sin, phi=(0.0, 2.0 * np.pi))
+        super().__init__(x=cos, y=sin, phi=(0.0, 2.0 * np.pi))
         self._center = center
         self._radius = radius
 
