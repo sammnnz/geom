@@ -10,11 +10,11 @@
 
 ## Install
 ~~~~shell
-pip install "git+https://github.com/sammnnz/geom@v0.1.0"
+pip install "git+https://github.com/sammnnz/geom@v0.2.0"
 ~~~~
 или
 ~~~~shell
-poetry add "git+https://github.com/sammnnz/geom@v0.1.0"
+poetry add "git+https://github.com/sammnnz/geom@v0.2.0"
 ~~~~
 
 ## Features
@@ -29,6 +29,8 @@ poetry add "git+https://github.com/sammnnz/geom@v0.1.0"
 **Circle** - класс наследованный от **Shape2D**, представляющий круг.
 
 Вычислить площадь (для любой из фигур) можно вызвав метод `area`.
+
+Узнать прямоугольный треугольник или нет, можно вызвав метод `is_right_angled` класса `Triangle`.
 
 Добавление дополнительных классов показано в примере [1](https://github.com/sammnnz/geom/blob/main/example/1.py).
 

@@ -78,3 +78,21 @@ def test_Triangle___init___invalid(verts, error, kwargs):
 def test_Triangle_area(verts, area):
     tri = Triangle(verts)
     assert tri.area() == area
+
+
+def _rotate2d_matrix(theta):
+    return np.array([
+        [np.cos(theta), np.sin(theta)],
+        [-np.sin(theta), np.cos(theta)]
+    ])
+
+
+@pytest.mark.parametrize("verts, res", [
+    (np.array([[0, 0], [1, 0], [0, 1]]), True),
+    (np.array([[0, 0], [1, 0], [0, 1]]) @ _rotate2d_matrix(np.pi / 4), True),
+    (np.array([[0, 0], [1, 0], [0.5, 1]]), False),
+    (np.array([[0, 0], [1, 0], [0.5, 1]]) @ _rotate2d_matrix(np.pi / 4), False),
+])
+def test_Triangle_is_right_angle(verts, res):
+    tri = Triangle(verts)
+    assert tri.is_right_angled() is res

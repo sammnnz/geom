@@ -7,7 +7,7 @@ from geom.figures_2d import Figure2D
 def is_rectangle(verts):
     """ Return True if vertices define a rectangle, else return False. """
     matrix = np.concat((verts[1:] - verts[:-1], [verts[0] - verts[-1]]))
-    prod = matrix * np.roll(matrix, 1, axis=0)
+    prod = np.sum(matrix * np.roll(matrix, 1, axis=0), axis=1)
     return np.all(prod == 0.0)
 
 
@@ -33,6 +33,10 @@ class Rectangle(Figure2D):
 
 
 if __name__ == "__main__":
-    verts = [0, 0], [0, 1], [1, 1], [1, 0]
+    verts = (np.array([[-1, -1], [-1, 1], [1, 1], [1, -1]]) @
+             np.array([
+                 [np.cos(np.pi / 4), np.sin(np.pi / 4)],
+                 [-np.sin(np.pi / 4), np.cos(np.pi / 4)]
+             ]))
     rect = Rectangle(verts)
-    assert rect.area() == 1.0
+    assert rect.area() == 4.0
