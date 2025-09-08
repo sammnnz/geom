@@ -1,0 +1,21 @@
+name: Tests-win
+
+on:
+   pull_request:
+     branches: [main, release-*, develop, fe-*]
+     types: [opened, reopened]
+   workflow_dispatch:
+
+jobs:
+  tests-call:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest]
+        py: ["3.10", "3.11", "3.12", "3.13", "3.14.0-rc.2"]
+    uses: ./.github/workflows/tests_imp.yml
+    with:
+        os: ${{matrix.os}}
+        py: ${{matrix.py}}
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
