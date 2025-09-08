@@ -24,9 +24,13 @@ repos:
     rev: v1.17.1
     hooks:
       - id: mypy
-        args: [ --config-file=pyproject.toml]
+        args: [ "--config-file", "pyproject.toml"]
         additional_dependencies: [
             "numpy (<2.3.2) ; python_version < \"3.11\"",
             "numpy (>=2.3.2,<3.0.0) ; python_version >= \"3.11\"",
         ]
         language_version: python3
+        types_or: [ python, pyi ]
+        # https://github.com/python/mypy/issues/13916
+        pass_filenames: false
+        entry: mypy -v src
