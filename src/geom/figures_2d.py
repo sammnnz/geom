@@ -39,7 +39,7 @@ class Triangle(Figure2D, ABC):
     """ Triangle representation class. """
 
     def __init__(self, verts, *args, **kwargs):
-        super(Triangle, self).__init__(verts, *args, **kwargs)
+        super().__init__(verts, *args, **kwargs)
         n = len(verts)
         if n != 3:
             raise ValueError("Triangle must have size 3 * 2, but %i * 2 were given." % n)
