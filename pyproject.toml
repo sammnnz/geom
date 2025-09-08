@@ -1,6 +1,6 @@
 [project]
 name = "geom"
-version = "0.2.0a"
+version = "0.2.0"
 description = "Test library for geometry calculations"
 authors = [
     {name = "Sam Nazarov", email = "samnnazarov@gmail.com"}
